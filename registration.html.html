@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>General Knowledge Online Exam Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000000;
+            min-height: 100vh;
+            font-family: "Times New Roman", Times, serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: all 0.5s ease;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+        
+        .page-title {
+            font-size: 2.8rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+            letter-spacing: 1px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #cccccc;
+            font-style: italic;
+            margin-top: 10px;
+        }
+        
+        .registration-container {
+            background-color: rgba(30, 30, 30, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            border: 1px solid #333;
+            margin-bottom: 30px;
+            transition: all 0.5s ease;
+        }
+        
+        .confirmation-page {
+            display: none;
+            background-color: rgba(30, 30, 30, 0.95);
+            padding: 60px 40px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.15);
+            border: 2px solid #4ecdc4;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .confirmation-icon {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            animation: bounce 1s ease infinite alternate;
+        }
+        
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-10px); }
+        }
+        
+        .confirmation-title {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #4ecdc4, #45b7d1, #96ceb4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(78, 205, 196, 0.3);
+        }
+        
+        .confirmation-message {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+        
+        .confirmation-details {
+            background-color: rgba(17, 17, 17, 0.7);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 4px solid #ff6b6b;
+            text-align: left;
+        }
+        
+        .confirmation-details h3 {
+            color: #4ecdc4;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .confirmation-details p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: #cccccc;
+        }
+        
+        .return-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: "Times New Roman", Times, serif;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
+        }
+        
+        .return-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            color: #e0e0e0;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background-color: #111;
+            border: 1px solid #444;
+            border-radius: 5px;
+            color: white;
+            font-family: "Times New Roman", Times, serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #4ecdc4;
+        }
+        
+        input.error {
+            border-color: #ff6b6b;
+            box-shadow: 0 0 5px rgba(255, 107, 107, 0.3);
+        }
+        
+        input.success {
+            border-color: #96ceb4;
+            box-shadow: 0 0 5px rgba(150, 206, 180, 0.3);
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .validation-icon {
+            position: absolute;
+            right: 12px;
+            top: 40px;
+            font-size: 1.2rem;
+            display: none;
+        }
+        
+        .validation-icon.show {
+            display: block;
+        }
+        
+        .validation-icon.success {
+            color: #96ceb4;
+        }
+        
+        .validation-icon.error {
+            color: #ff6b6b;
+        }
+        
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .time-option {
+            background-color: #111;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .time-option:hover {
+            border-color: #4ecdc4;
+            background-color: #1a1a1a;
+        }
+        
+        .time-option.selected {
+            border-color: #ff6b6b;
+            background-color: #1a1a1a;
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+        }
+        
+        .time-label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            color: #e0e0e0;
+        }
+        
+        .time-range {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-family: "Times New Roman", Times, serif;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: transform 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #888;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .hidden-input {
+            display: none;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #45b7d1, #96ceb4);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.error {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        /* Hide/show classes */
+        .hide {
+            display: none !important;
+        }
+        
+        .show {
+            display: block !important;
+        }
+        
+        .duplicate-check {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 107, 107, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .duplicate-check h4 {
+            color: #ffcccb;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .duplicate-check p {
+            font-size: 0.95rem;
+            color: #cccccc;
+            line-height: 1.5;
+        }
+        
+        .admin-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .admin-link a {
+            color: #4ecdc4;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        
+        .admin-link a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="page-title">General Knowledge Online Exam Registration</h1>
+        <p class="subtitle">Test your knowledge and compete with the best</p>
+    </div>
+    
+    <div class="registration-container" id="registrationContainer">
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                <span class="validation-icon" id="nameValidation"></span>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+                <span class="validation-icon" id="emailValidation"></span>
+                <div class="error-message" id="emailError">This email is already registered!</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Valid Phone Number</label>
+                <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+                <span class="validation-icon" id="phoneValidation"></span>
+                <div class="error-message" id="phoneError">This phone number is already registered!</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="examDate">Preferred Exam Date</label>
+                <input type="date" id="examDate" name="examDate" required>
+                <span class="validation-icon" id="dateValidation"></span>
+            </div>
+            
+            <div class="form-group">
+                <label>Select Preferred Time</label>
+                <div class="time-slots">
+                    <div class="time-option" data-time="9-12">
+                        <span class="time-label">Morning Session</span>
+                        <span class="time-range">9:00 AM - 12:00 PM</span>
+                    </div>
+                    
+                    <div class="time-option" data-time="12-3">
+                        <span class="time-label">Midday Session</span>
+                        <span class="time-range">12:00 PM - 3:00 PM</span>
+                    </div>
+                    
+                    <div class="time-option" data-time="3-6">
+                        <span class="time-label">Afternoon Session</span>
+                        <span class="time-range">3:00 PM - 6:00 PM</span>
+                    </div>
+                    
+                    <div class="time-option" data-time="6-9">
+                        <span class="time-label">Evening Session</span>
+                        <span class="time-range">6:00 PM - 9:00 PM</span>
+                    </div>
+                </div>
+                <input type="text" id="selectedTime" name="selectedTime" class="hidden-input" required>
+                <div class="error-message" id="timeError">Please select a time slot!</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="education">Education Level</label>
+                <select id="education" name="education" required>
+                    <option value="">Select your education level</option>
+                    <option value="class1-5">Class 1-5</option>
+                    <option value="class6-8">Class 6-8</option>
+                    <option value="class9-10">Class 9-10</option>
+                    <option value="class11-12">Class 11-12</option>
+                    <option value="other">Other</option>
+                </select>
+                <span class="validation-icon" id="educationValidation"></span>
+            </div>
+            
+            <div class="duplicate-check">
+                <h4>⚠️ One Account Per Person</h4>
+                <p>Each email and phone number can only be used for one registration. Duplicate registrations will be rejected automatically.</p>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submitBtn">Register for Exam</button>
+        </form>
+        
+        <div class="admin-link">
+            <a href="admin.html" target="_blank">🔐 Admin Panel (For Administrators Only)</a>
+        </div>
+    </div>
+    
+    <div class="confirmation-page" id="confirmationPage">
+        <div class="confirmation-icon">🎉</div>
+        <h1 class="confirmation-title">Registration Successful! 🎯</h1>
+        
+        <div class="confirmation-message">
+            🏆 <strong>Congratulations! You're successfully registered!</strong> 🏆<br><br>
+            📨 We will send you your <strong>Exam ID</strong> and all necessary information via SMS/Email.<br><br>
+            💌 Please check your registered email and phone for updates.<br><br>
+            🙏 Thanks for being a part of us!<br><br>
+            ✨ <strong>All the best for the exam!</strong> ✨
+        </div>
+        
+        <div class="confirmation-details" id="registrationDetails">
+            <h3>📋 Your Registration Details:</h3>
+            <p id="detailName">👤 <strong>Name:</strong> <span id="detailNameValue"></span></p>
+            <p id="detailEmail">📧 <strong>Email:</strong> <span id="detailEmailValue"></span></p>
+            <p id="detailPhone">📱 <strong>Phone:</strong> <span id="detailPhoneValue"></span></p>
+            <p id="detailDate">📅 <strong>Exam Date:</strong> <span id="detailDateValue"></span></p>
+            <p id="detailTime">⏰ <strong>Time Slot:</strong> <span id="detailTimeValue"></span></p>
+            <p id="detailEducation">🎓 <strong>Education Level:</strong> <span id="detailEducationValue"></span></p>
+        </div>
+        
+        <div style="margin: 30px 0; padding: 20px; background: rgba(255, 107, 107, 0.1); border-radius: 10px; border-left: 4px solid #ff6b6b;">
+            <p style="font-size: 1.1rem; color: #ffcccb;">📢 <strong>Important:</strong> Keep your registration details safe. Your Exam ID will be sent within 24 hours.</p>
+        </div>
+        
+        <button class="return-btn" id="returnBtn">📝 Register Another Candidate</button>
+    </div>
+    
+    <div class="footer">
+        <p>© 2024 General Knowledge Online Exam. All rights reserved.</p>
+    </div>
+
+    <div class="notification" id="notification">
+        Data saved successfully!
+    </div>
+
+    <script>
+        // Time selection functionality
+        const timeOptions = document.querySelectorAll('.time-option');
+        const selectedTimeInput = document.getElementById('selectedTime');
+        let selectedTime = '';
+        
+        // Data storage key
+        const STORAGE_KEY = 'exam_registrations';
+        
+        // Initialize data array
+        let registrations = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        
+        // DOM Elements
+        const registrationContainer = document.getElementById('registrationContainer');
+        const confirmationPage = document.getElementById('confirmationPage');
+        const returnBtn = document.getElementById('returnBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        // Input elements
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const fullNameInput = document.getElementById('fullName');
+        const examDateInput = document.getElementById('examDate');
+        const educationSelect = document.getElementById('education');
+        
+        // Validation elements
+        const emailError = document.getElementById('emailError');
+        const phoneError = document.getElementById('phoneError');
+        const timeError = document.getElementById('timeError');
+        const emailValidation = document.getElementById('emailValidation');
+        const phoneValidation = document.getElementById('phoneValidation');
+        const nameValidation = document.getElementById('nameValidation');
+        const dateValidation = document.getElementById('dateValidation');
+        const educationValidation = document.getElementById('educationValidation');
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification';
+            notification.classList.add(type);
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Check if email already exists
+        function isEmailDuplicate(email) {
+            return registrations.some(reg => 
+                reg.email.toLowerCase() === email.toLowerCase()
+            );
+        }
+        
+        // Check if phone already exists
+        function isPhoneDuplicate(phone) {
+            return registrations.some(reg => reg.phone === phone);
+        }
+        
+        // Validate email
+        function validateEmail() {
+            const email = emailInput.value.trim();
+            if (!email) return false;
+            
+            const isDuplicate = isEmailDuplicate(email);
+            
+            if (isDuplicate) {
+                emailInput.classList.add('error');
+                emailInput.classList.remove('success');
+                emailError.classList.add('show');
+                emailValidation.textContent = '✗';
+                emailValidation.className = 'validation-icon error show';
+                return false;
+            } else {
+                emailInput.classList.remove('error');
+                emailInput.classList.add('success');
+                emailError.classList.remove('show');
+                emailValidation.textContent = '✓';
+                emailValidation.className = 'validation-icon success show';
+                return true;
+            }
+        }
+        
+        // Validate phone
+        function validatePhone() {
+            const phone = phoneInput.value.trim();
+            if (!phone) return false;
+            
+            const isDuplicate = isPhoneDuplicate(phone);
+            
+            if (isDuplicate) {
+                phoneInput.classList.add('error');
+                phoneInput.classList.remove('success');
+                phoneError.classList.add('show');
+                phoneValidation.textContent = '✗';
+                phoneValidation.className = 'validation-icon error show';
+                return false;
+            } else {
+                phoneInput.classList.remove('error');
+                phoneInput.classList.add('success');
+                phoneError.classList.remove('show');
+                phoneValidation.textContent = '✓';
+                phoneValidation.className = 'validation-icon success show';
+                return true;
+            }
+        }
+        
+        // Validate other fields
+        function validateOtherFields() {
+            let allValid = true;
+            
+            // Validate name
+            if (fullNameInput.value.trim()) {
+                fullNameInput.classList.add('success');
+                nameValidation.textContent = '✓';
+                nameValidation.className = 'validation-icon success show';
+            } else {
+                fullNameInput.classList.remove('success');
+                nameValidation.className = 'validation-icon';
+                allValid = false;
+            }
+            
+            // Validate date
+            if (examDateInput.value) {
+                examDateInput.classList.add('success');
+                dateValidation.textContent = '✓';
+                dateValidation.className = 'validation-icon success show';
+            } else {
+                examDateInput.classList.remove('success');
+                dateValidation.className = 'validation-icon';
+                allValid = false;
+            }
+            
+            // Validate education
+            if (educationSelect.value) {
+                educationSelect.classList.add('success');
+                educationValidation.textContent = '✓';
+                educationValidation.className = 'validation-icon success show';
+            } else {
+                educationSelect.classList.remove('success');
+                educationValidation.className = 'validation-icon';
+                allValid = false;
+            }
+            
+            // Validate time
+            if (selectedTime) {
+                timeError.classList.remove('show');
+            } else {
+                timeError.classList.add('show');
+                allValid = false;
+            }
+            
+            return allValid;
+        }
+        
+        // Update submit button state
+        function updateSubmitButton() {
+            const emailValid = validateEmail();
+            const phoneValid = validatePhone();
+            const otherValid = validateOtherFields();
+            
+            submitBtn.disabled = !(emailValid && phoneValid && otherValid);
+        }
+        
+        // Show confirmation page
+        function showConfirmationPage(formData) {
+            // Hide registration form
+            registrationContainer.classList.add('hide');
+            document.querySelector('.header').classList.add('hide');
+            
+            // Update confirmation details
+            document.getElementById('detailNameValue').textContent = formData.fullName;
+            document.getElementById('detailEmailValue').textContent = formData.email;
+            document.getElementById('detailPhoneValue').textContent = formData.phone;
+            document.getElementById('detailDateValue').textContent = 
+                new Date(formData.examDate).toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            document.getElementById('detailTimeValue').textContent = formData.timeSlot;
+            document.getElementById('detailEducationValue').textContent = 
+                document.getElementById('education').options[document.getElementById('education').selectedIndex].text;
+            
+            // Show confirmation page
+            confirmationPage.classList.add('show');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Return to registration form
+        function returnToRegistration() {
+            // Hide confirmation page
+            confirmationPage.classList.remove('show');
+            
+            // Show registration form
+            registrationContainer.classList.remove('hide');
+            document.querySelector('.header').classList.remove('hide');
+            
+            // Reset form
+            document.getElementById('registrationForm').reset();
+            timeOptions.forEach(opt => opt.classList.remove('selected'));
+            selectedTime = '';
+            selectedTimeInput.value = '';
+            
+            // Reset validation states
+            emailInput.classList.remove('error', 'success');
+            phoneInput.classList.remove('error', 'success');
+            fullNameInput.classList.remove('success');
+            examDateInput.classList.remove('success');
+            educationSelect.classList.remove('success');
+            
+            // Hide validation icons
+            [emailValidation, phoneValidation, nameValidation, dateValidation, educationValidation]
+                .forEach(el => el.className = 'validation-icon');
+            
+            // Hide error messages
+            emailError.classList.remove('show');
+            phoneError.classList.remove('show');
+            timeError.classList.remove('show');
+            
+            // Reset to default date
+            const defaultDate = new Date();
+            defaultDate.setDate(defaultDate.getDate() + 3);
+            document.getElementById('examDate').value = defaultDate.toISOString().split('T')[0];
+            
+            // Update submit button
+            updateSubmitButton();
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        // Save registration to localStorage
+        function saveRegistration(data) {
+            const registration = {
+                id: Date.now(),
+                timestamp: new Date().toISOString(),
+                ...data
+            };
+            
+            registrations.push(registration);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(registrations));
+            showNotification('Registration saved successfully!');
+            
+            return registration.id;
+        }
+        
+        // Event listeners for time slots
+        timeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove selected class from all options
+                timeOptions.forEach(opt => opt.classList.remove('selected'));
+                
+                // Add selected class to clicked option
+                option.classList.add('selected');
+                
+                // Get the time value
+                selectedTime = option.getAttribute('data-time');
+                
+                // Update hidden input value
+                selectedTimeInput.value = option.querySelector('.time-range').textContent;
+                
+                // Update validation
+                updateSubmitButton();
+            });
+        });
+        
+        // Real-time validation for email and phone
+        emailInput.addEventListener('input', updateSubmitButton);
+        phoneInput.addEventListener('input', updateSubmitButton);
+        fullNameInput.addEventListener('input', updateSubmitButton);
+        examDateInput.addEventListener('input', updateSubmitButton);
+        educationSelect.addEventListener('change', updateSubmitButton);
+        
+        // Form submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate time selection
+            if (!selectedTime) {
+                showNotification('Please select a preferred time slot.', 'error');
+                return;
+            }
+            
+            // Get form values
+            const formData = {
+                fullName: fullNameInput.value.trim(),
+                email: emailInput.value.trim(),
+                phone: phoneInput.value.trim(),
+                examDate: examDateInput.value,
+                timeSlot: selectedTimeInput.value,
+                education: educationSelect.value
+            };
+            
+            // Final validation
+            if (isEmailDuplicate(formData.email)) {
+                showNotification('This email is already registered!', 'error');
+                return;
+            }
+            
+            if (isPhoneDuplicate(formData.phone)) {
+                showNotification('This phone number is already registered!', 'error');
+                return;
+            }
+            
+            // Save the registration
+            const registrationId = saveRegistration(formData);
+            
+            // Show confirmation page
+            showConfirmationPage(formData);
+            
+            // Log registration ID
+            console.log(`Registration ID: ${registrationId}`);
+        });
+        
+        // Return button event
+        returnBtn.addEventListener('click', returnToRegistration);
+        
+        // Set minimum date to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const minDate = tomorrow.toISOString().split('T')[0];
+        document.getElementById('examDate').setAttribute('min', minDate);
+        
+        // Set default date to 3 days from now
+        const defaultDate = new Date();
+        defaultDate.setDate(defaultDate.getDate() + 3);
+        document.getElementById('examDate').value = defaultDate.toISOString().split('T')[0];
+        
+        // Initialize submit button state
+        updateSubmitButton();
+    </script>
+</body>
+</html>
